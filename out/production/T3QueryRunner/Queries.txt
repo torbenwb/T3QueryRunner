@@ -1,4 +1,4 @@
-[Vendor: Fastest selling listings purchased in the last 30 days]
+[Vendor Data: Fastest selling listings purchased in the last 30 days]
 select
     timestampdiff(day, AllClosedListings.date, Purchase.date) as Days_Listed,
     cast(Purchase.date as date) as Purchase_Date,
@@ -14,7 +14,7 @@ where
     Purchase.date < curdate()
 order by Days_Listed;
 
-[Vendor: Open listings where list price is below average purchase price for make]
+[Vendor Data: Open listings where list price is below average purchase price for make]
 select
 	concat('$', format(t0.avgPurchasePrice - AllOpenListings.price, 'C2')) as 'Price Differential',
     concat('$', format(AllOpenListings.price,'C2')) as 'List Price',
@@ -40,7 +40,7 @@ and abs(AllOpenListings.price - t0.avgPurchasePrice) < 5000
 and Vehicle.mileage <= t1.avgMileage
 order by t0.avgPurchasePrice - AllOpenListings.price desc;
 
-[Vendor: Customers who have viewed vehicle listings many times but didn't make any purchase]
+[Vendor Data: Customers who have viewed vehicle listings many times but didn't make any purchase]
 SELECT DISTINCT
     CONCAT(u.first_name, ' ', u.last_name) AS 'Customer name',
     u.phone AS 'Phone',
@@ -63,7 +63,7 @@ GROUP BY u.user_num
 ORDER BY SUM(v.times_viewed) DESC
 LIMIT 30;
 
-[Vendor: Average, maximum and minimum days for vehicles sold from listing to purchasing, by vehicle body types]
+[Vendor Data: Average, max and min days for vehicles sold from listing to purchasing]
 SELECT
     v.body_type AS 'Vehicle body type',
     ROUND(AVG(Selling_days), 0) AS 'Average selling days',
@@ -84,7 +84,7 @@ FROM
 GROUP BY v.body_type
 ORDER BY AVG(Selling_days);
 
-[Vendor: This query lists the top 10 sales person who have create the most revenue]
+[Vendor Data: This query lists the top 10 sales person who have create the most revenue]
 SELECT
     CONCAT(u.first_name, ' ', u.last_name) AS 'Sales person',
     ven.vendor_name AS 'Vendor',
@@ -103,7 +103,7 @@ GROUP BY e.user_num , ven.vendor_name
 ORDER BY SUM(p.price) DESC
 LIMIT 10;
 
-[Vendor: Top 10 selling brands along with average selling price]
+[Vendor Data: Top 10 selling brands along with average selling price]
 SELECT
     v.make AS `Brand`,
     COUNT(p.purchase_num) AS `Total sales`,
@@ -119,7 +119,7 @@ ORDER BY COUNT(p.purchase_num) DESC
 LIMIT 10;
 
 
-[Vendor: Most viewed open listings whose last view was in the last 30 days]
+[Vendor Data: Most viewed open listings whose last view was in the last 30 days]
 select
 	agg.Listing_Total_Views as Total_Views,
     cast(t0.mostRecentView as datE) as Most_Recent_View,
@@ -155,7 +155,7 @@ join (
 	group by AllOpenListings.listing_num) as t0
 on t0.listing_num = AllOpenListings.listing_num;
 
-[Vendor: Display most recent vehicle]
+[Vendor Action: Display most recent vehicle]
 select * from Vehicle
 where Vehicle.vendor_num = [Vendor Number]
 and Vehicle.vehicle_num =
@@ -163,7 +163,7 @@ and Vehicle.vehicle_num =
 where Vehicle.vendor_num = [Vendor Number] )
 ;
 
-[Vendor: Insert new vehicle]
+[Vendor Action: Insert new vehicle]
 insert into Vehicle (vendor_num, make, model, year, engine_type)
 values
 (
@@ -174,7 +174,7 @@ values
     [Engine Type]
 );
 
-[Vendor: Update vehicle details]
+[Vendor Action: Update vehicle details]
 update vehicle set
     color = [Color] ,
     body_type = [Body Type] ,
@@ -184,7 +184,7 @@ update vehicle set
 where vehicle.vehicle_num = [Vehicle Num]
 ;
 
-[Vendor: Insert new listing]
+[Vendor Action: Insert new listing]
 insert into Listing (date, vehicle_num, price, region_num, employee_num)
 values
 (
@@ -198,7 +198,7 @@ values
         )
 );
 
-[Vendor: Display most recent listing]
+[Vendor Action: Display most recent listing]
 select * from Listing join Vehicle on Listing.vehicle_num = Vehicle.vehicle_num
 where Vehicle.vendor_num = [Vendor Number] and Listing.listing_num =
     (select max(Listing.listing_num) from Listing

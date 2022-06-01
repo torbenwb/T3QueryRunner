@@ -6,6 +6,8 @@ import javax.swing.*;
 
 
 public class AppFrame extends javax.swing.JFrame {
+    final String logoPath = "CarLogo.png";
+
     public enum UserType {VENDOR,CUSTOMER};
     /**
      * This is the constructer for Test Frame. It will initialize the landing page.
@@ -35,7 +37,7 @@ public class AppFrame extends javax.swing.JFrame {
         //landingPanel.setOpaque(false);
 
         jImageLabel = new javax.swing.JLabel();
-        logoImage = new javax.swing.ImageIcon("QueryRunner/src/CarLogo.png");
+        logoImage = new javax.swing.ImageIcon(logoPath);
         jImageLabel.setIcon(logoImage);
         System.out.println("image w = " + logoImage.getIconWidth() + " image h = " + logoImage.getIconHeight());
 

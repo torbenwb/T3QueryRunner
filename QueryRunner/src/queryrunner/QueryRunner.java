@@ -20,7 +20,7 @@ import java.util.Scanner;
  * functions in order to run the Queries.
  */
 public class QueryRunner {
-
+    final String queriesPath = "Queries.txt";
     
     public QueryRunner() throws FileNotFoundException {
         this.m_jdbcData = new QueryJDBC();
@@ -36,7 +36,7 @@ public class QueryRunner {
 
     // Loads query data from source file.
     public void LoadQueries() throws FileNotFoundException {
-        File f = new File("QueryRunner/src/Queries.txt");
+        File f = new File(queriesPath);
         if (f.exists()){
             Scanner readFile = new Scanner(f);
             StringBuilder concat = new StringBuilder();
