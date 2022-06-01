@@ -276,3 +276,24 @@ select t0.Month as 'Month', t0.AvgListPrice as 'Monthly Average List Price' from
         Vehicle.body_type = [bodyType]
 	group by month(Listing.date)
 	order by month(Listing.date) asc) as t0;
+
+[Customer: Search Make]
+select
+concat('$',format (AllOpenListings.price, 'C2')),
+Vendor.vendor_name,
+Vehicle.make, Vehicle.model, Vehicle.mileage, Vehicle.color, Vehicle.engine_type
+from AllOpenListings join Vehicle on Vehicle.vehicle_num = AllOpenListings.vehicle_num
+join Vendor on Vehicle.vendor_num = Vendor.vendor_num
+where Vehicle.make = [Vehicle Make]
+;
+
+[Customer: Search Make, Region]
+select
+concat('$',format (AllOpenListings.price, 'C2')),
+Vendor.vendor_name,
+Vehicle.make, Vehicle.model, Vehicle.mileage, Vehicle.color, Vehicle.engine_type
+from AllOpenListings join Vehicle on Vehicle.vehicle_num = AllOpenListings.vehicle_num
+join Vendor on Vehicle.vendor_num = Vendor.vendor_num
+where Vehicle.make = [Vehicle Make]
+and AllOpenListings.region_num = [Region]
+;
